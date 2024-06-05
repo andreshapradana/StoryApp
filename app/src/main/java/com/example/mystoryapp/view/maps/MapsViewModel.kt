@@ -4,9 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.mystoryapp.data.StoryRepository
-import com.example.mystoryapp.data.api.ListStoryItem
-import com.example.mystoryapp.data.api.StoryResponse
+import com.example.mystoryapp.data.repository.StoryRepository
+import com.example.mystoryapp.data.response.ListStoryItem
 import kotlinx.coroutines.launch
 
 class MapsViewModel(private val storyRepository: StoryRepository) : ViewModel() {

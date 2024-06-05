@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mystoryapp.R
 import com.example.mystoryapp.databinding.ActivityStoryBinding
 import com.example.mystoryapp.view.maps.MapsActivity
-import com.example.mystoryapp.view.StoryViewModel
 import com.example.mystoryapp.view.ViewModelFactory
 import com.example.mystoryapp.view.main.MainViewModel
 import com.example.mystoryapp.view.welcome.WelcomeActivity

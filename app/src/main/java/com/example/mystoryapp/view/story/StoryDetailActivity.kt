@@ -3,7 +3,7 @@ package com.example.mystoryapp.view.story
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
-import com.example.mystoryapp.data.api.ListStoryItem
+import com.example.mystoryapp.data.response.ListStoryItem
 import com.example.mystoryapp.databinding.ActivityStoryDetailBinding
 
 class StoryDetailActivity : AppCompatActivity() {

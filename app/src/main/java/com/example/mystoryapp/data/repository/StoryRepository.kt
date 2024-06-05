@@ -1,10 +1,10 @@
-package com.example.mystoryapp.data
+package com.example.mystoryapp.data.repository
 
 import android.content.ContentValues.TAG
 import android.util.Log
 import com.example.mystoryapp.data.api.ApiConfig
 import com.example.mystoryapp.data.api.ApiService
-import com.example.mystoryapp.data.api.ListStoryItem
+import com.example.mystoryapp.data.response.ListStoryItem
 import com.example.mystoryapp.data.pref.UserPreference
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first

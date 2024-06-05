@@ -1,5 +1,9 @@
 package com.example.mystoryapp.data.api
 
+import com.example.mystoryapp.data.response.FileUploadResponse
+import com.example.mystoryapp.data.response.LoginResponse
+import com.example.mystoryapp.data.response.RegisterResponse
+import com.example.mystoryapp.data.response.StoryResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.Field

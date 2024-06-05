@@ -3,13 +3,14 @@ package com.example.mystoryapp.view
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.mystoryapp.data.StoryRepository
-import com.example.mystoryapp.data.UserRepository
+import com.example.mystoryapp.data.repository.StoryRepository
+import com.example.mystoryapp.data.repository.UserRepository
 import com.example.mystoryapp.di.Injection
 import com.example.mystoryapp.view.login.LoginViewModel
 import com.example.mystoryapp.view.main.MainViewModel
 import com.example.mystoryapp.view.maps.MapsViewModel
 import com.example.mystoryapp.view.signup.SignupViewModel
+import com.example.mystoryapp.view.story.StoryViewModel
 
 class ViewModelFactory private constructor(
     private val userRepository: UserRepository,

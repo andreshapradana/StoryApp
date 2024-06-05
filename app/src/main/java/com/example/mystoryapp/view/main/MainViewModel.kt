@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.mystoryapp.data.UserRepository
+import com.example.mystoryapp.data.repository.UserRepository
 import com.example.mystoryapp.data.pref.UserModel
 import kotlinx.coroutines.launch
 

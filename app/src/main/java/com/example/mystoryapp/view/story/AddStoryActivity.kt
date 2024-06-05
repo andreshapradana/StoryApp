@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.mystoryapp.R
 import com.example.mystoryapp.data.api.ApiConfig
-import com.example.mystoryapp.data.api.FileUploadResponse
+import com.example.mystoryapp.data.response.FileUploadResponse
 import com.example.mystoryapp.data.pref.UserPreference
 import com.example.mystoryapp.data.pref.dataStore
 import com.example.mystoryapp.databinding.ActivityAddStoryBinding

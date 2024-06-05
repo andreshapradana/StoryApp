@@ -1,4 +1,4 @@
-package com.example.mystoryapp.data.api
+package com.example.mystoryapp.data.response
 
 import com.google.gson.annotations.SerializedName
 

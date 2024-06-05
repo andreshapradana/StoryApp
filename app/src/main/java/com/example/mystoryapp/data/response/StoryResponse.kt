@@ -1,4 +1,4 @@
-package com.example.mystoryapp.data.api
+package com.example.mystoryapp.data.response
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

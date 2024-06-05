@@ -1,7 +1,7 @@
 package com.example.mystoryapp.view.signup
 
 import androidx.lifecycle.ViewModel
-import com.example.mystoryapp.data.UserRepository
+import com.example.mystoryapp.data.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

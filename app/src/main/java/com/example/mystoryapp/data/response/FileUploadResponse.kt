@@ -1,8 +1,8 @@
-package com.example.mystoryapp.data.api
+package com.example.mystoryapp.data.response
 
 import com.google.gson.annotations.SerializedName
 
-data class RegisterResponse (
+data class FileUploadResponse(
     @field:SerializedName("error")
     val error: Boolean,
     @field:SerializedName("message")

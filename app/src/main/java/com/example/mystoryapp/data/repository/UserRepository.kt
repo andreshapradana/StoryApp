@@ -1,7 +1,7 @@
-package com.example.mystoryapp.data
+package com.example.mystoryapp.data.repository
 
 import com.example.mystoryapp.data.api.ApiService
-import com.example.mystoryapp.data.api.ErrorResponse
+import com.example.mystoryapp.data.response.ErrorResponse
 import com.example.mystoryapp.data.pref.UserModel
 import com.example.mystoryapp.data.pref.UserPreference
 import com.google.gson.Gson

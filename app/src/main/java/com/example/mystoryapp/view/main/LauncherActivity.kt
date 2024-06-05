@@ -1,10 +1,10 @@
-package com.example.mystoryapp.view
+package com.example.mystoryapp.view.main
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.example.mystoryapp.view.main.MainViewModel
+import com.example.mystoryapp.view.ViewModelFactory
 import com.example.mystoryapp.view.story.StoryActivity
 import com.example.mystoryapp.view.welcome.WelcomeActivity
 

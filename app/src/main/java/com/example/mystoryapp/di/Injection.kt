@@ -1,8 +1,8 @@
 package com.example.mystoryapp.di
 
 import android.content.Context
-import com.example.mystoryapp.data.StoryRepository
-import com.example.mystoryapp.data.UserRepository
+import com.example.mystoryapp.data.repository.StoryRepository
+import com.example.mystoryapp.data.repository.UserRepository
 import com.example.mystoryapp.data.api.ApiConfig
 import com.example.mystoryapp.data.pref.UserPreference
 import com.example.mystoryapp.data.pref.dataStore

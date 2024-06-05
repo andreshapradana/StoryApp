@@ -2,12 +2,18 @@ package com.example.mystoryapp.data.repository
 
 import android.content.ContentValues.TAG
 import android.util.Log
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import com.example.mystoryapp.data.StoryPagingSource
 import com.example.mystoryapp.data.api.ApiConfig
 import com.example.mystoryapp.data.api.ApiService
 import com.example.mystoryapp.data.response.ListStoryItem
 import com.example.mystoryapp.data.pref.UserPreference
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 class StoryRepository private constructor(
@@ -46,6 +52,24 @@ class StoryRepository private constructor(
             } catch (e: Exception) {
                 emptyList()
             }
+        }
+    }
+
+    fun getStoriesWithPaging(): Flow<PagingData<ListStoryItem>> {
+        val token = getTokenBlocking()
+        val apiServiceWithToken = ApiConfig.getApiService(token)
+        Log.d("StoryRepository", "getStoriesWithPaging: token=$token")
+        return Pager(
+            config = PagingConfig(
+                pageSize = 5,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { StoryPagingSource(apiServiceWithToken)}
+        ).flow
+    }
+    private fun getTokenBlocking(): String {
+        return runBlocking {
+            userPreference.getSession().first().token
         }
     }
     suspend fun getStoriesWithLocation(): List<ListStoryItem> {

@@ -9,6 +9,7 @@ import okhttp3.RequestBody
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
@@ -32,6 +33,12 @@ interface ApiService {
 
     @GET("stories")
     suspend fun getStories(): StoryResponse
+
+    @GET("stories")
+    suspend fun getStoriesWithPaging(
+        @Query("page") page: Int = 1,
+        @Query("size") size: Int = 20,
+    ): StoryResponse
 
     @Multipart
     @POST("stories")

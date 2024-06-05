@@ -2,13 +2,12 @@ package com.example.mystoryapp.view.story
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mystoryapp.R
 import com.example.mystoryapp.databinding.ActivityStoryBinding
@@ -16,20 +15,20 @@ import com.example.mystoryapp.view.maps.MapsActivity
 import com.example.mystoryapp.view.ViewModelFactory
 import com.example.mystoryapp.view.main.MainViewModel
 import com.example.mystoryapp.view.welcome.WelcomeActivity
+import kotlinx.coroutines.launch
 
 class StoryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityStoryBinding
-    private val viewModel by viewModels<StoryViewModel> {
+    private val storyViewModel by viewModels<StoryViewModel> {
         ViewModelFactory.getInstance(this)
     }
     private val mainViewModel by viewModels<MainViewModel> {
         ViewModelFactory.getInstance(this)
     }
-    private lateinit var storyAdapter: StoryAdapter
+    private lateinit var storyAdapter: StoryPagingAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("StoryActivity", "onCreate called")
         binding = ActivityStoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -64,8 +63,11 @@ class StoryActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        Log.d("StoryActivity", "onResume called")
-        viewModel.getStories()
+        refreshData()
+    }
+
+    private fun refreshData() {
+        storyAdapter.refresh()
     }
 
     private fun showLogoutConfirmationDialog() {
@@ -87,27 +89,18 @@ class StoryActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        storyAdapter = StoryAdapter(emptyList())
+        storyAdapter = StoryPagingAdapter()
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(this@StoryActivity)
             adapter = storyAdapter
         }
-        Log.d("StoryActivity", "RecyclerView set up")
     }
 
     private fun observeStories() {
-        viewModel.listStory.observe(this) { stories ->
-            if (stories != null) {
-                storyAdapter = StoryAdapter(stories)
-                binding.recyclerView.adapter = storyAdapter
-                storyAdapter.notifyDataSetChanged()
-                Log.d("StoryActivity", "Stories observed and adapter updated")
+        storyViewModel.listStory.observe(this) { pagingData ->
+            lifecycleScope.launch {
+                storyAdapter.submitData(pagingData)
             }
-        }
-
-        viewModel.isLoading.observe(this) { isLoading ->
-            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-            Log.d("StoryActivity", "Loading state changed: $isLoading")
         }
     }
 }

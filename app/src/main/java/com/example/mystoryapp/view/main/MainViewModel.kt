@@ -1,5 +1,7 @@
 package com.example.mystoryapp.view.main
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
@@ -17,6 +19,7 @@ class MainViewModel(private val repository: UserRepository) : ViewModel() {
         viewModelScope.launch {
             repository.logout()
         }
+        Log.d(TAG, "logout: success")
     }
 
 }

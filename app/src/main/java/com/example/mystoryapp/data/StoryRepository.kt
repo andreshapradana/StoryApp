@@ -4,13 +4,11 @@ import android.content.ContentValues.TAG
 import android.util.Log
 import com.example.mystoryapp.data.api.ApiConfig
 import com.example.mystoryapp.data.api.ApiService
-import com.example.mystoryapp.data.api.StoryResponse
+import com.example.mystoryapp.data.api.ListStoryItem
 import com.example.mystoryapp.data.pref.UserPreference
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.withContext
 
 class StoryRepository private constructor(
     private val apiService: ApiService,
@@ -29,20 +27,24 @@ class StoryRepository private constructor(
             }.also { instance = it }
     }
 
-    fun getStories(): Flow<Result<StoryResponse>> = flow {
-        try {
-            val user = userPreference.getSession().first()
-            Log.d(TAG, "getStories: ${user.token}")
-            val token = user.token
-            if (token.isNotBlank()) {
+    suspend fun getStories(): List<ListStoryItem> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val user = userPreference.getSession().first()
+                Log.d(TAG, "getStories: ${user.token}")
+                val token = user.token
                 val apiServiceWithToken = ApiConfig.getApiService(token)
                 val response = apiServiceWithToken.getStories()
-                emit(Result.success(response))
-            } else {
-                emit(Result.failure(Exception("Token is blank")))
+                response.listStory.map { storyResponse ->
+                    ListStoryItem(
+                        id = storyResponse.id,
+                        name = storyResponse.name,
+                        description = storyResponse.description,
+                        photoUrl = storyResponse.photoUrl
+                    )
+                }
+            } catch (e: Exception) {
+                emptyList()
             }
-        } catch (e: Exception) {
-            emit(Result.failure(e))
         }
-    }.flowOn(Dispatchers.IO)
-}
+    }}

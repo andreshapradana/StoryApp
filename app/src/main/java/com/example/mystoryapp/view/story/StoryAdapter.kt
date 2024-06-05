@@ -22,10 +22,6 @@ class StoryAdapter(private var listStory: List<ListStoryItem>) : RecyclerView.Ad
 
     override fun getItemCount() = listStory.size
 
-    fun updateStories(newList: List<ListStoryItem>) {
-        listStory = newList
-    }
-
     class StoryViewHolder(private val binding: ItemStoryBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(story: ListStoryItem) {
             binding.tvItemTitle.text = story.name

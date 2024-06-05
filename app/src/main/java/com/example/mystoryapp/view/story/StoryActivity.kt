@@ -3,24 +3,26 @@ package com.example.mystoryapp.view.story
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mystoryapp.R
 import com.example.mystoryapp.databinding.ActivityStoryBinding
 import com.example.mystoryapp.view.StoryViewModel
 import com.example.mystoryapp.view.ViewModelFactory
-import com.example.mystoryapp.view.main.MainActivity
+import com.example.mystoryapp.view.main.MainViewModel
+import com.example.mystoryapp.view.welcome.WelcomeActivity
 
 class StoryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityStoryBinding
     private val viewModel by viewModels<StoryViewModel> {
+        ViewModelFactory.getInstance(this)
+    }
+    private val mainViewModel by viewModels<MainViewModel> {
         ViewModelFactory.getInstance(this)
     }
     private lateinit var storyAdapter: StoryAdapter
@@ -38,18 +40,45 @@ class StoryActivity : AppCompatActivity() {
             val intent = Intent(this, AddStoryActivity::class.java)
             startActivity(intent)
         }
+    }
 
-        binding.fabOut.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-            startActivity(intent)
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.option_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_logout -> {
+                showLogoutConfirmationDialog()
+                true
+            }
+            else -> false
         }
     }
 
     override fun onResume() {
         super.onResume()
-        setupRecyclerView()
-        observeStories()
+        Log.d("StoryActivity", "onResume called")
+        viewModel.getStories()
+    }
+
+    private fun showLogoutConfirmationDialog() {
+        AlertDialog.Builder(this).apply {
+            setTitle("Konfirmasi Logout")
+            setMessage("Apakah anda ingin logout dari aplikasi?")
+            setPositiveButton("Ya") { dialog, which ->
+                mainViewModel.logout()
+                val intent = Intent(this@StoryActivity, WelcomeActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+            setNegativeButton("Tidak") { dialog, which ->
+                dialog.dismiss()
+            }
+            create()
+            show()
+        }
     }
 
     private fun setupRecyclerView() {
@@ -62,20 +91,19 @@ class StoryActivity : AppCompatActivity() {
     }
 
     private fun observeStories() {
-        viewModel.getStories().observe(this, Observer { result ->
-            Log.d("StoryActivity", "observeStories called")
-            result.fold(
-                onSuccess = { storyResponse ->
-                    if (storyResponse.listStory.isNotEmpty()) {
-                        storyAdapter.updateStories(storyResponse.listStory)
-                    } else {
-                        Log.e("StoryActivity", "Story list is empty")
-                    }
-                },
-                onFailure = { throwable ->
-                    Log.e("StoryActivity", "Error fetching stories", throwable)
-                }
-            )
-        })
+        viewModel.listStory.observe(this) { stories ->
+            if (stories != null) {
+                storyAdapter = StoryAdapter(stories)
+                binding.recyclerView.adapter = storyAdapter
+                storyAdapter.notifyDataSetChanged()
+                Log.d("StoryActivity", "Stories observed and adapter updated")
+            }
+        }
+
+        viewModel.isLoading.observe(this) { isLoading ->
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            Log.d("StoryActivity", "Loading state changed: $isLoading")
+        }
     }
 }
+

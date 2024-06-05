@@ -47,4 +47,30 @@ class StoryRepository private constructor(
                 emptyList()
             }
         }
-    }}
+    }
+    suspend fun getStoriesWithLocation(): List<ListStoryItem> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val user = userPreference.getSession().first()
+                Log.d(TAG, "getStories: ${user.token}")
+                val token = user.token
+                val apiServiceWithToken = ApiConfig.getApiService(token)
+                val response = apiServiceWithToken.getStoriesWithLocation()
+                response.listStory.map { storyResponse ->
+                    ListStoryItem(
+                        id = storyResponse.id,
+                        name = storyResponse.name,
+                        description = storyResponse.description,
+                        photoUrl = storyResponse.photoUrl,
+                        lat = storyResponse.lat,
+                        lon = storyResponse.lon
+                    )
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "getStoriesWithLocation: ${e.message}", e)
+                emptyList()
+            }
+        }
+    }
+
+}

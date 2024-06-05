@@ -18,5 +18,8 @@
     <string name="upload">upload</string>
     <string name="description">description</string>
     <string name="empty_image_warning">Tidak ada Gambar Terpilih</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="map">map</string>
+    <string name="posted_by">%s</string>
 
 </resources>

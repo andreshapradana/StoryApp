@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mystoryapp.R
 import com.example.mystoryapp.databinding.ActivityStoryBinding
+import com.example.mystoryapp.view.maps.MapsActivity
 import com.example.mystoryapp.view.StoryViewModel
 import com.example.mystoryapp.view.ViewModelFactory
 import com.example.mystoryapp.view.main.MainViewModel
@@ -51,6 +52,11 @@ class StoryActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.action_logout -> {
                 showLogoutConfirmationDialog()
+                true
+            }
+            R.id.action_map -> {
+                val intent = Intent(this, MapsActivity::class.java)
+                startActivity(intent)
                 true
             }
             else -> false
